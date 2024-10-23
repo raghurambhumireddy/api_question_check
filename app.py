@@ -7,6 +7,10 @@ import re
 
 app = FastAPI()
 
+# Load the secret key from secret_key.txt
+with open("secret_key.txt", "r") as f:
+    SECRET_KEY = f.read().strip()
+
 # Initialize the SentenceTransformer model for embedding
 model = SentenceTransformer('sentence-transformers/all-MiniLM-L6-v2')
 
@@ -20,6 +24,7 @@ collect_name = "question_answer_4"
 
 class SearchRequest(BaseModel):
     query: str  # Sentence to be searched
+    secret_key: str  # Secret key for authentication
 
 def clean_value(value):
     value = re.sub(' +', ' ', value)
@@ -41,12 +46,15 @@ def replace_special_characters(record):
 
 @app.post("/search")
 def search_query(request: SearchRequest):
+    # Verify the secret key
+    if request.secret_key != SECRET_KEY:
+        raise HTTPException(status_code=403, detail="Authentication failed")
+
     query_sentence = request.query
 
     try:
         # Convert the query sentence into a vector embedding
         query_embedding = model.encode(query_sentence).tolist()
-        # print(query_embedding)
 
         # Perform a similarity search on Qdrant using the embedding
         search_result = qdrant_client.search(
@@ -59,7 +67,6 @@ def search_query(request: SearchRequest):
             )
         )
 
-        print(search_result)
         # Process the results
         if search_result:
             data = []
