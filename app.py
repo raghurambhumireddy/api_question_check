@@ -25,7 +25,7 @@ qdrant_client = QdrantClient(
 )
 
 # collect_name = "question_answer_4"
-collect_name = "testing_7_Question_Bank_data"
+collect_name = "testing_7_master_sample_data"
 
 class SearchRequest(BaseModel):
     query: str  # Sentence to be searched
