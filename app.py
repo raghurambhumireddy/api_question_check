@@ -15,12 +15,17 @@ with open("secret_key.txt", "r") as f:
 model = SentenceTransformer('sentence-transformers/all-MiniLM-L6-v2')
 
 # Connect to Qdrant
+# qdrant_client = QdrantClient(
+#     url="https://c8e964b9-aa62-4a53-87dd-7252467c2b02.europe-west3-0.gcp.cloud.qdrant.io:6333",
+#     api_key="bVrqBpHHscZySyi4qKnTWDpm4JdmMXMnFbhLCD2dxvJKZbrmUQ11pA"
+# )
 qdrant_client = QdrantClient(
-    url="https://c8e964b9-aa62-4a53-87dd-7252467c2b02.europe-west3-0.gcp.cloud.qdrant.io:6333",
-    api_key="bVrqBpHHscZySyi4qKnTWDpm4JdmMXMnFbhLCD2dxvJKZbrmUQ11pA"
+    url="https://2519ed63-9687-4a30-a5eb-91a3b7e4c194.us-east4-0.gcp.cloud.qdrant.io:6333", 
+    api_key="ft66KkUd5M2gbqID2Ly9FT9UwxbjMn0LMiVIm0S4vJLFe0XtU-bTiQ",
 )
 
-collect_name = "question_answer_4"
+# collect_name = "question_answer_4"
+collect_name = "testing_7_Question_Bank_data"
 
 class SearchRequest(BaseModel):
     query: str  # Sentence to be searched
